@@ -6,10 +6,9 @@ import { Helper } from './utils/helper';
 
 import { serverConfig, databaseConfig } from './config'
 
-
 dotenv.config();
 
-class App {
+export class App {
     public app: Application;
     private port: number | string;
 
@@ -19,13 +18,23 @@ class App {
         this.app.use(bodyParser.json());
         this.port = serverConfig.PORT;
         this.initializeRoutes();
+        this.DatabaseInit();
+    }
 
+    private DatabaseInit(): void {
         databaseConfig.sequelize.authenticate().then(() => {
-            console.log('Connection has been established successfully.');
+            // console.log('Connection has been established successfully.');
+            // Sync all defined models to the database
+            databaseConfig.sequelize.sync({ alter: true }).then(() => {
+                // console.log("Database synchronized with 'alter: true'");
+            }).catch((syncError) => {
+                console.error("Error synchronizing the database:", syncError);
+            });
         }).catch((error) => {
             console.error('Unable to connect to the database:', error);
-        })
+        });
     }
+
 
     private initializeRoutes(): void {
         this.app.get("/", (req: Request, res: Response) => {
@@ -41,7 +50,3 @@ class App {
         });
     }
 }
-
-const app = new App();
-app.listen();
-
