@@ -1,3 +1,3 @@
 import serverConfig from './server.config';
-
-export { serverConfig };
+import * as databaseConfig from './database.config';
+export { serverConfig, databaseConfig };
