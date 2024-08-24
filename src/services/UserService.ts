@@ -8,10 +8,14 @@ export class UserService {
 
     constructor() {
         this.userRepository = new UserRepository();
-        console.log('UserRepository initialized:', this.userRepository);
     }
 
     async createUser(user: User): Promise<User> {
         return await this.userRepository.create(user);
     }
+
+    async findAll(): Promise<User[]> {
+        return await this.userRepository.findAll();
+    }
+    
 }

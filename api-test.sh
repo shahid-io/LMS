@@ -2,7 +2,7 @@
 
 # Test GET request
 echo "Testing GET request..."
-curl -X GET http://localhost:3000/api/users
+curl -X GET http://localhost:3000/api/v1/user
 echo -e "\n"
 
 # Test POST request

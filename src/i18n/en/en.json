@@ -1,0 +1,14 @@
+{
+    "ERRORS": {
+        "USER": {
+            "USER_CREATION_FAILED": "Failed to create user",
+            "USER_FETCH_FAILED": "Failed to get all users"
+        }
+    },
+    "success": {
+        "user": {
+            "userCreated": "User created successfully",
+            "usersFetched": "Users fetched successfully"
+        }
+    }
+}
