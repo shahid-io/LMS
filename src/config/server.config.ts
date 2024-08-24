@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
 
-// Load environment variables from .env file
 dotenv.config();
 
 interface ServerConfig {
@@ -9,6 +8,7 @@ interface ServerConfig {
     DB_USER: string;
     DB_PASSWORD: string;
     DB_NAME: string;
+    SALT: number;
 }
 
 const serverConfig: ServerConfig = {
@@ -17,6 +17,7 @@ const serverConfig: ServerConfig = {
     DB_USER: process.env.DB_USER || 'root',
     DB_PASSWORD: process.env.DB_PASSWORD || 'password',
     DB_NAME: process.env.DB_NAME || 'lms',
+    SALT: parseInt(process.env.SALT || '9'),
 };
 
 export default serverConfig;
