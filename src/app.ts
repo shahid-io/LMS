@@ -3,6 +3,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import { Helper } from './utils/helper';
+import apiRoutes from './routes';
 
 import { serverConfig, databaseConfig } from './config'
 
@@ -19,6 +20,7 @@ export class App {
         this.port = serverConfig.PORT;
         this.initializeRoutes();
         this.DatabaseInit();
+        this.app.use('/api', apiRoutes);
     }
 
     private DatabaseInit(): void {
