@@ -25,6 +25,9 @@ class UserRoutes {
         this.router.get('/', (req: Request, res: Response) => {
             this.userController.getAllUser(req, res);
         });
+        this.router.get('/:id', (req: Request, res: Response) => {
+            this.userController.getUserById(req, res);
+        });
 
         this.router.post('/', (req: Request, res: Response) => {
             this.userController.createUser(req, res);

@@ -2,7 +2,11 @@
     "ERRORS": {
         "USER": {
             "USER_CREATION_FAILED": "Failed to create user",
-            "USER_FETCH_FAILED": "Failed to get all users"
+            "USER_FETCH_FAILED": "Failed to get all users",
+            "USER_NOT_FOUND": "User not found"
+        },
+        "GENERAL": {
+            "INTERNAL_SERVER_ERROR": "INTERNAL SERVER ERROR"
         }
     },
     "success": {
