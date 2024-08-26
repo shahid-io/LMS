@@ -4,11 +4,11 @@ dotenv.config();
 
 interface ServerConfig {
     PORT: number;
+    SALT: number;
     DB_HOST: string;
     DB_USER: string;
     DB_PASSWORD: string;
     DB_NAME: string;
-    SALT: number;
 }
 
 const serverConfig: ServerConfig = {
@@ -17,7 +17,7 @@ const serverConfig: ServerConfig = {
     DB_USER: process.env.DB_USER || 'root',
     DB_PASSWORD: process.env.DB_PASSWORD || 'password',
     DB_NAME: process.env.DB_NAME || 'lms',
-    SALT: parseInt(process.env.SALT || '9'),
+    SALT: parseInt(process.env.SALT || '9', 10)
 };
 
 export default serverConfig;

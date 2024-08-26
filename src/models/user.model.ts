@@ -1,9 +1,11 @@
 import { Table, Column, Model, PrimaryKey, AutoIncrement, BeforeCreate, BeforeUpdate } from 'sequelize-typescript';
 import bcrypt from 'bcryptjs';
-import { serverConfig } from '../config'
+import serverConfig from '../config/server.config'
 import { DataTypes } from 'sequelize';
+import dotenv from 'dotenv';
+dotenv.config()
 @Table({ paranoid: true, timestamps: true })
-export default class User extends Model<User> {
+class User extends Model<User> {
     @PrimaryKey
     @AutoIncrement
     @Column
@@ -28,16 +30,24 @@ export default class User extends Model<User> {
     })
     status!: number;
 
-    // @BeforeCreate
-    // public static async hash(instance: User) {
-    //     instance.password = await bcrypt.hash(instance.password, serverConfig.SALT);
-    // }
+    @BeforeCreate
+    public static async hash(instance: User): Promise<void> {
+        try {
+            instance.password = await bcrypt.hash(instance.password, serverConfig.SALT);
+        } catch (error) {
+            console.error('Error hashing password:', error);
+            throw new Error('Error hashing password');
+        }
+    }
 
-    // @BeforeUpdate
-    // static async updatePassword(instance: User) {
-    //     if (instance.changed('password')) {
-    //         instance.password = await bcrypt.hash(instance.password, serverConfig.SALT);
-    //     }
-    // }
+    @BeforeUpdate
+    public static async updatePassword(instance: User): Promise<void> {
+        if (instance.changed('password')) {
+            instance.password = await bcrypt.hash(instance.password, serverConfig.SALT);
+        }
+    }
 
 }
+
+
+export default User;

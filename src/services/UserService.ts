@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { UserRepository } from '../repositories/UserRepository';
-import User from '../models/user.model';
+import User  from '../models/User.model';
 
 export class UserService {
 
