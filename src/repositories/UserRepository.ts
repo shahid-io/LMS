@@ -1,4 +1,4 @@
-import User from '../models/User.model';
+import User from '../models/UserModel';
 import { IRepository } from './IRepository';
 
 export class UserRepository implements IRepository<User> {

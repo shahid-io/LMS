@@ -20,7 +20,7 @@ export class App {
         this.port = serverConfig.PORT;
         this.initializeRoutes();
         this.DatabaseInit();
-        this.app.use('/api', apiRoutes);
+        this.app.use('/api', apiRoutes);        
     }
 
     private DatabaseInit(): void {
@@ -42,8 +42,6 @@ export class App {
         this.app.get("/", (req: Request, res: Response) => {
             res.send({ message: 'LMS' })
         });
-        // this.app.use('/api', userRoutes);
-        // this.app.use('/api', courseRoutes);
     }
 
     public listen(): void {
