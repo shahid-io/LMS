@@ -22,9 +22,19 @@ class UserRoutes {
      * @memberof UserRoutes
      */
     private setRoutes() {
+
+        this.router.post('/signup', (req: Request, res: Response) => {
+            this.userController.signup(req, res);
+        })
+
+        this.router.post('/login', (req: Request, res: Response) => {
+            this.userController.login(req, res);
+        })
+
         this.router.get('/', (req: Request, res: Response) => {
             this.userController.getAllUser(req, res);
         });
+        
         this.router.get('/:id', (req: Request, res: Response) => {
             this.userController.getUserById(req, res);
         });

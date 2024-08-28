@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { UserRepository } from '../repositories/UserRepository';
-import User  from '../models/UserModel';
+import User from '../models/UserModel';
 
 export class UserService {
 
@@ -20,6 +20,10 @@ export class UserService {
 
     async findById(id: number | string): Promise<User | null> {
         return await this.userRepository.findById(parseInt(id.toString()));
+    }
+
+    async findOne(email: string): Promise<User | null> {
+        return await this.userRepository.findOne(email)
     }
 
     /**
