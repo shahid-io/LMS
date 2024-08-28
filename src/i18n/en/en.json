@@ -3,7 +3,8 @@
         "USER": {
             "USER_CREATION_FAILED": "Failed to create user",
             "USER_FETCH_FAILED": "Failed to get all users",
-            "USER_NOT_FOUND": "User not found"
+            "USER_NOT_FOUND": "User not found",
+            "PASSWORD_DOES_NOT_MATCH": "Password does not match"
         },
         "GENERAL": {
             "INTERNAL_SERVER_ERROR": "INTERNAL SERVER ERROR"

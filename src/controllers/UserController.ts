@@ -2,11 +2,40 @@ import { Request, Response } from 'express';
 import { UserService } from '../services/UserService';
 import { AppSuccess, AppError, HttpStatusCodes } from '../utils/common'
 import message from '../i18n/en/en.json';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { serverConfig } from '../config'
 export class UserController {
 
     private userService: UserService;
     constructor() {
         this.userService = new UserService();
+    }
+
+    async signup(req: Request, res: Response) {
+        try {
+            const user = await this.userService.create(req.body);
+            res.status(HttpStatusCodes.CREATED).json(new AppSuccess(user));
+        } catch (error) {
+            res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json(new AppError(message.ERRORS.USER.USER_CREATION_FAILED, 500));
+        }
+    }
+
+    async login(req: Request, res: Response) {
+        try {
+            const { email, password } = req.body;
+            const user = await this.userService.findOne(email);
+            if (!user) throw new AppError(message.ERRORS.USER.USER_NOT_FOUND, HttpStatusCodes.NOT_FOUND);
+            const match = await bcrypt.compare(password, user.password);
+            if (!match) throw new AppError(message.ERRORS.USER.PASSWORD_DOES_NOT_MATCH, HttpStatusCodes.UNAUTHORIZED);
+            const token = jwt.sign({ userId: user.id }, serverConfig.PRIVATE_KEY, {
+                algorithm: 'RS256',
+                expiresIn: '1h'
+            });
+            return res.status(HttpStatusCodes.OK).json(new AppSuccess({ ...user, token }));
+        } catch (error) {
+            res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json(new AppError(message.ERRORS.USER.USER_CREATION_FAILED, 500));
+        }
     }
 
     async createUser(req: Request, res: Response) {
