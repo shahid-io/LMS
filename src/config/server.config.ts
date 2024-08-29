@@ -16,6 +16,7 @@ interface ServerConfig {
     DB_NAME: string;
     PUBLIC_KEY: string;
     PRIVATE_KEY: string;
+    JWT_SECRET: string;
 }
 
 const serverConfig: ServerConfig = {
@@ -26,7 +27,8 @@ const serverConfig: ServerConfig = {
     DB_NAME: process.env.DB_NAME || 'lms',
     SALT: parseInt(process.env.SALT || '9', 10),
     PUBLIC_KEY: publicKey,
-    PRIVATE_KEY: privateKey
+    PRIVATE_KEY: privateKey,
+    JWT_SECRET: process.env.JWT_SECRET || 'Hello@123',
 };
 
 export default serverConfig;

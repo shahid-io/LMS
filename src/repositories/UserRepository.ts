@@ -1,6 +1,6 @@
 import User from '../models/UserModel';
 import { IRepository } from './IRepository';
-
+import { WhereOptions, Op } from 'sequelize';
 export class UserRepository implements IRepository<User> {
     async findAll(): Promise<User[]> {
         return await User.findAll();
@@ -9,9 +9,8 @@ export class UserRepository implements IRepository<User> {
     async findById(id: number): Promise<User | null> {
         return await User.findByPk(id);
     }
-
-    async findOne(email: string): Promise<User | null> {
-        return await User.findOne({ where: { email } });
+    async findOne(where?: WhereOptions<User>): Promise<User | null> {
+        return await User.findOne({where});
     }
 
     async create(user: User): Promise<User> {
