@@ -4,15 +4,14 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import { Helper } from './utils/helper';
 import apiRoutes from './routes';
-
 import { serverConfig, databaseConfig } from './config'
+import User from './models/UserModel';
 
 dotenv.config();
 
 export class App {
     public app: Application;
     private port: number | string;
-
     constructor() {
         this.app = express();
         this.app.use(cors());
@@ -20,7 +19,7 @@ export class App {
         this.port = serverConfig.PORT;
         this.initializeRoutes();
         this.DatabaseInit();
-        this.app.use('/api', apiRoutes);        
+        this.app.use('/api', apiRoutes);
     }
 
     private DatabaseInit(): void {

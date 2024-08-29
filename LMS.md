@@ -1,8 +1,8 @@
 # LMS Database Design
 
-### Core Entities and Relationships
+## Core Entities and Relationships
 
-#### 1. **Users**
+### 1. **Users**
 
 - **Attributes**: ID, Username, Email, Password, RoleID
 - **Description**: Stores user details. Users can be students, instructors, or administrators.
@@ -126,5 +126,6 @@ CREATE TABLE Role_Permissions (
     FOREIGN KEY (RoleID) REFERENCES Roles(ID),
     FOREIGN KEY (PermissionID) REFERENCES Permissions(PermissionID)
 );
+```
 
 -- Additional tables for Assessments, Questions, Answers, Course Materials, Discussions, Logs can be created similarly.

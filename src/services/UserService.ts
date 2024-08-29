@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { UserRepository } from '../repositories/UserRepository';
 import User from '../models/UserModel';
+import { WhereOptions } from 'sequelize';
 
 export class UserService {
 
@@ -22,8 +23,8 @@ export class UserService {
         return await this.userRepository.findById(parseInt(id.toString()));
     }
 
-    async findOne(email: string): Promise<User | null> {
-        return await this.userRepository.findOne(email)
+    async findOne(where?: WhereOptions<User>): Promise<User | null> {
+        return await this.userRepository.findOne(where)
     }
 
     /**
