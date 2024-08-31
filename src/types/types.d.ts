@@ -6,6 +6,7 @@ interface DecodedToken {
     email: string;
     iat: number;
     exp: number;
+    role: RoleEnum;
 }
 
 declare global {

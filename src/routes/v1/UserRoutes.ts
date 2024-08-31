@@ -39,6 +39,11 @@ class UserRoutes {
         this.router.use(this.userMiddleware.verifyToken);
 
         /** Protected Routes */
+
+        this.router.post('/updateRole', this.userMiddleware.isAdmin, (req: Request, res: Response) => {
+            this.userController.updateRole(req, res);
+        })
+
         this.router.get('/', (req: Request, res: Response) => {
             this.userController.getAllUser(req, res);
         });
