@@ -102,4 +102,29 @@ export class UserController {
             }
         }
     }
+
+    async updateRole(req: Request, res: Response) {
+        try {
+            const { userId, newRoleId } = req.body;
+            if (!userId || !newRoleId) {
+                return res.status(HttpStatusCodes.BAD_REQUEST).json({
+                    message: "Missing userId or newRoleId in request"
+                });
+            }
+            const user = await this.userService.updateRole(userId, newRoleId);
+            res.status(HttpStatusCodes.OK).json({
+                message: message.SUCCESS.USER.USER_ROLE_UPDATED,
+                user
+            });
+        } catch (error) {
+            if (error instanceof AppError) {
+                res.status(error.statusCode).json(error);
+            } else {
+                res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json(new AppError(
+                    message.ERRORS.GENERAL.INTERNAL_SERVER_ERROR,
+                    HttpStatusCodes.INTERNAL_SERVER_ERROR
+                ));
+            }
+        }
+    }
 }

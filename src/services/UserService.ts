@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import { UserRepository } from '../repositories/UserRepository';
 import User from '../models/UserModel';
 import { WhereOptions } from 'sequelize';
+import { RoleEnum } from '../types/RoleEnum';
 
 export class UserService {
 
@@ -47,4 +48,15 @@ export class UserService {
     async delete(id: number): Promise<void> {
         return await this.userRepository.delete(id);
     }
+
+    async updateRole(id: number, role: number): Promise<User> {
+        const user = await this.userRepository.findById(id);
+        if (user) {
+            user.roleId = role;
+            await user.save();
+            return user;
+        }
+        throw new Error('User not found');
+    }
+
 }

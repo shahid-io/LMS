@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import { serverConfig } from '../config';
 import { DecodedToken } from '../types/types';
+import { RoleEnum } from '../types/RoleEnum';
 
 export class UserMiddleware {
     private readonly PUBLIC_KEY: string;
@@ -26,4 +27,28 @@ export class UserMiddleware {
             res.status(401).json({ message: 'No token provided.' });
         }
     };
+
+    isAdmin = (req: Request, res: Response, next: NextFunction) => {
+        const user = req.user;
+        if (user && user.role === RoleEnum.ADMIN) {
+            next();
+        } else {
+            res.status(403).send('Access denied: Admin privileges required.');
+        }
+    }
+
+    checkRole = (requiredRole: RoleEnum) => {
+        return (req: Request, res: Response, next: NextFunction) => {
+            const user = req.user;
+            if (!user) {
+                return res.status(401).send('Authentication required: No user found.');
+            }
+
+            if (user.role === requiredRole) {
+                next();
+            } else {
+                res.status(403).send(`Access denied: Requires ${requiredRole} role.`);
+            }
+        };
+    }
 }

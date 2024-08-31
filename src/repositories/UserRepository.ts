@@ -17,13 +17,16 @@ export class UserRepository implements IRepository<User> {
         return await User.create(user);
     }
 
-    async update(id: number, user: User): Promise<User> {
+    async update(id: number, user: Partial<User>): Promise<User> {
         const foundUser = await User.findByPk(id);
         if (foundUser) {
-            return await foundUser.update(user);
+            return await foundUser.update(user, {
+                fields: Object.keys(user) as (keyof User)[],
+            });
         }
         throw new Error('User not found');
     }
+
 
     async delete(id: number): Promise<void> {
         const user = await User.findByPk(id);

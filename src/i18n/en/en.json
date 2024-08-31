@@ -6,14 +6,31 @@
             "USER_NOT_FOUND": "User not found",
             "PASSWORD_DOES_NOT_MATCH": "Password does not match"
         },
+        "ROLE": {
+            "ROLE_FETCH_FAILED": "Failed to get all roles",
+            "ROLE_NOT_FOUND": "Role not found",
+            "ROLE_UPDATE_FAILED": "Failed to update role",
+            "ROLE_CREATION_FAILED": "Failed to create role",
+            "ROLE_DELETE_FAILED": "Failed to delete role"
+        },
         "GENERAL": {
             "INTERNAL_SERVER_ERROR": "INTERNAL SERVER ERROR"
         }
     },
-    "success": {
-        "user": {
-            "userCreated": "User created successfully",
-            "usersFetched": "Users fetched successfully"
+    "SUCCESS": {
+        "USER": {
+            "USER_CREATED": "User created successfully",
+            "USER_FETCH": "Users fetched successfully",
+            "USER_DELETED": "User deleted successfully",
+            "USER_UPDATED": "User updated successfully",
+            "USER_PASSWORD_UPDATED": "Password updated successfully",
+            "USER_ROLE_UPDATED": "Role updated successfully"
+        },
+        "ROLE": {
+            "ROLE_CREATED": "Role created successfully",
+            "ROLE_FETCH": "Roles fetched successfully",
+            "ROLE_DELETED": "Role deleted successfully",
+            "ROLE_UPDATED": "Role updated successfully"
         }
     }
 }
