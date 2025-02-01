@@ -5,6 +5,8 @@ import message from '../i18n/en/en.json';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { serverConfig } from '../config'
+import { WhereOptions, Op } from 'sequelize';
+import User from '../models/UserModel';
 export class UserController {
 
     private userService: UserService;
@@ -23,14 +25,16 @@ export class UserController {
 
     async login(req: Request, res: Response) {
         try {
-            const { email, password } = req.body;
-            const user = await this.userService.findOne(email);
+            const condition: WhereOptions<User> = {};
+            condition.email = { [Op.eq]: req.body.email };
+            const { password } = req.body;
+            const user = await this.userService.findOne(condition);
             if (!user) throw new AppError(message.ERRORS.USER.USER_NOT_FOUND, HttpStatusCodes.NOT_FOUND);
             const match = await bcrypt.compare(password, user.password);
             if (!match) throw new AppError(message.ERRORS.USER.PASSWORD_DOES_NOT_MATCH, HttpStatusCodes.UNAUTHORIZED);
             const token = jwt.sign({ userId: user.id }, serverConfig.PRIVATE_KEY, {
                 algorithm: 'RS256',
-                expiresIn: '1h'
+                expiresIn: '30d'
             });
             return res.status(HttpStatusCodes.OK).json(new AppSuccess({ ...user, token }));
         } catch (error) {
@@ -88,6 +92,31 @@ export class UserController {
             if (!user) throw new AppError(message.ERRORS.USER.USER_NOT_FOUND, HttpStatusCodes.NOT_FOUND);
             return res.status(HttpStatusCodes.OK).json(new AppSuccess(user));
         } catch (error: any) {
+            if (error instanceof AppError) {
+                res.status(error.statusCode).json(error);
+            } else {
+                res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json(new AppError(
+                    message.ERRORS.GENERAL.INTERNAL_SERVER_ERROR,
+                    HttpStatusCodes.INTERNAL_SERVER_ERROR
+                ));
+            }
+        }
+    }
+
+    async updateRole(req: Request, res: Response) {
+        try {
+            const { userId, newRoleId } = req.body;
+            if (!userId || !newRoleId) {
+                return res.status(HttpStatusCodes.BAD_REQUEST).json({
+                    message: "Missing userId or newRoleId in request"
+                });
+            }
+            const user = await this.userService.updateRole(userId, newRoleId);
+            res.status(HttpStatusCodes.OK).json({
+                message: message.SUCCESS.USER.USER_ROLE_UPDATED,
+                user
+            });
+        } catch (error) {
             if (error instanceof AppError) {
                 res.status(error.statusCode).json(error);
             } else {

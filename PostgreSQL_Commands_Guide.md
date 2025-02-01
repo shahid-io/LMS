@@ -60,3 +60,6 @@ Then list the tables:
 ```sql
 \dt
 ```
+
+INSERT INTO "Roles" ("role", "description", "createdAt", "updatedAt")
+VALUES ('admin', 'Admin User', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
