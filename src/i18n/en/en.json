@@ -13,6 +13,13 @@
             "ROLE_CREATION_FAILED": "Failed to create role",
             "ROLE_DELETE_FAILED": "Failed to delete role"
         },
+        "COURSE": {
+            "COURSE_FETCH_FAILED": "Failed to get all courses",
+            "COURSE_NOT_FOUND": "Course not found",
+            "COURSE_UPDATE_FAILED": "Failed to update course",
+            "COURSE_CREATION_FAILED": "Failed to create course",
+            "COURSE_DELETE_FAILED": "Failed to delete courses"
+        },
         "GENERAL": {
             "INTERNAL_SERVER_ERROR": "INTERNAL SERVER ERROR"
         }

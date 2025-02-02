@@ -25,7 +25,7 @@ export const sequelize = new Sequelize({
     host: DB_CONFIG.host,
     port: DB_CONFIG.port,
     username: DB_CONFIG.username,
-    password: DB_CONFIG.password,
+    password: DB_CONFIG.password, 
     database: DB_CONFIG.database,
     models: [path.resolve(__dirname, '..', 'models')],
     logging: false //!isProduction,

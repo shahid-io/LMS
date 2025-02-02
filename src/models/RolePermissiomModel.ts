@@ -13,12 +13,12 @@ export default class RolePermissions extends Model<RolePermissions> {
         type: DataTypes.INTEGER,
         allowNull: false
     })
-    roleID!: number;
+    roleId!: number;
 
     @ForeignKey(() => Permission)
     @Column({
         type: DataTypes.INTEGER,
         allowNull: false
     })
-    permissionID!: number;
+    permissionId!: number;
 }

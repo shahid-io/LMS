@@ -1,5 +1,6 @@
 import { Table, Column, Model, PrimaryKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
+import { PermissionEnum } from '../types';
 
 @Table({
     paranoid: true,
@@ -14,8 +15,9 @@ export default class Permission extends Model<Permission> {
     id!: number;
 
     @Column({
-        type: DataTypes.STRING(100),
-        allowNull: false
+        type: DataTypes.ENUM(...Object.values(PermissionEnum)),
+        allowNull: false,
+        // unique: true,
     })
-    name!: string;
+    name!: PermissionEnum;
 }

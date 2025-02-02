@@ -26,6 +26,7 @@ export class App {
         databaseConfig.sequelize.authenticate().then(() => {
             // console.log('Connection has been established successfully.');
             // Sync all defined models to the database
+            // { alter: true }
             databaseConfig.sequelize.sync({ alter: true }).then(() => {
                 // console.log("Database synchronized with 'alter: true'");
             }).catch((syncError) => {
