@@ -32,7 +32,7 @@ export class UserController {
             if (!user) throw new AppError(message.ERRORS.USER.USER_NOT_FOUND, HttpStatusCodes.NOT_FOUND);
             const match = await bcrypt.compare(password, user.password);
             if (!match) throw new AppError(message.ERRORS.USER.PASSWORD_DOES_NOT_MATCH, HttpStatusCodes.UNAUTHORIZED);
-            const token = jwt.sign({ userId: user.id }, serverConfig.PRIVATE_KEY, {
+            const token = jwt.sign({ userId: user.id, roleId: user.roleId }, serverConfig.PRIVATE_KEY, {
                 algorithm: 'RS256',
                 expiresIn: '30d'
             });

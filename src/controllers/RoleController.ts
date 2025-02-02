@@ -8,6 +8,7 @@ import { RoleService } from '../services/RoleService';
 
 export class RoleController {
     private roleService: RoleService;
+
     constructor() {
         this.roleService = new RoleService();
     }

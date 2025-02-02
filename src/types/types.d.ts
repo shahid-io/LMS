@@ -6,6 +6,7 @@ interface DecodedToken {
     email: string;
     iat: number;
     exp: number;
+    roleId: number;
     role: RoleEnum;
 }
 
