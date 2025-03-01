@@ -4,31 +4,40 @@ import RolePermissions from '../models/RolePermissiomModel';
 import { PermissionEnum } from '../types';
 
 class PermissionChecker {
-    private requiredPermission: PermissionEnum;
-
-    constructor(requiredPermission: PermissionEnum) {
-        this.requiredPermission = requiredPermission;
-    }
-
-    public checkPermission = () => {
+    public checkPermission = (requiredPermission: PermissionEnum) => {
+        console.log({ requiredPermission })
         return async (req: Request, res: Response, next: NextFunction) => {
             const user = req.user;
             const roleId = user?.roleId;
 
-            const hasPermission = await RolePermissions.findOne({
-                where: {
-                    roleId: roleId,
-                    permissionId: await Permission.findOne({
-                        where: { name: this.requiredPermission },
-                    }).then((perm) => perm?.id),
-                },
-            });
-
-            if (!hasPermission) {
-                return res.status(403).json({ error: "Forbidden: Insufficient permissions" });
+            if (!roleId) {
+                return res.status(403).json({ error: 'Forbidden: Role not found' });
             }
 
-            next();
+            try {
+                const permission = await Permission.findOne({
+                    where: { name: requiredPermission },
+                    logging: console.log
+                });
+                if (!permission) {
+                    return res.status(403).json({ error: 'Forbidden: Permission not found' });
+                }
+
+                const hasPermission = await RolePermissions.findOne({
+                    where: {
+                        roleId: roleId,
+                        permissionId: permission.id,
+                    },
+                });
+                if (!hasPermission) {
+                    return res.status(403).json({ error: 'Forbidden: Insufficient permissions' });
+                }
+
+                next();
+            } catch (error) {
+                console.error('Permission check failed:', error);
+                return res.status(500).json({ error: 'Internal server error' });
+            }
         };
     };
 }
