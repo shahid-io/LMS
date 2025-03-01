@@ -1,9 +1,6 @@
-import bcrypt from 'bcryptjs';
 import { UserRepository } from '../repositories/UserRepository';
 import User from '../models/UserModel';
 import { WhereOptions } from 'sequelize';
-import { RoleEnum } from '../types/RoleEnum';
-
 export class UserService {
 
     private userRepository: UserRepository;
@@ -24,8 +21,8 @@ export class UserService {
         return await this.userRepository.findById(parseInt(id.toString()));
     }
 
-    async findOne(where?: WhereOptions<User>): Promise<User | null> {
-        return await this.userRepository.findOne(where)
+    findOne(where?: WhereOptions<User>): Promise<User | null> {
+        return this.userRepository.findOne(where);
     }
 
     /**
@@ -36,14 +33,14 @@ export class UserService {
      * @returns A tuple containing the count of updated records and an array of the updated records.
      */
     async update(id: number, updateData: Partial<User>): Promise<User[]> {
-        const [updateCount, updatedUsers] = await User.update(updateData, {
+        const [count, data] = await User.update(updateData, {
             where: { id },
             returning: true
         });
-        if (updateCount === 0) {
+        if (count === 0) {
             throw new Error('User not found');
         }
-        return updatedUsers;
+        return data;
     }
     async delete(id: number): Promise<void> {
         return await this.userRepository.delete(id);

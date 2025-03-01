@@ -29,14 +29,28 @@ export class UserController {
             condition.email = { [Op.eq]: req.body.email };
             const { password } = req.body;
             const user = await this.userService.findOne(condition);
+
             if (!user) throw new AppError(message.ERRORS.USER.USER_NOT_FOUND, HttpStatusCodes.NOT_FOUND);
             const match = await bcrypt.compare(password, user.password);
+
             if (!match) throw new AppError(message.ERRORS.USER.PASSWORD_DOES_NOT_MATCH, HttpStatusCodes.UNAUTHORIZED);
             const token = jwt.sign({ userId: user.id, roleId: user.roleId }, serverConfig.PRIVATE_KEY, {
                 algorithm: 'RS256',
                 expiresIn: '30d'
             });
-            return res.status(HttpStatusCodes.OK).json(new AppSuccess({ ...user, token }));
+
+            const userResponse = {
+                token: token,
+                id: user.id,
+                email: user.email,
+                status: user.status,
+                roleId: user.roleId,
+                createdAt: user.createdAt,
+                updatedAt: user.updatedAt,
+                deletedAt: user.deletedAt,
+                role: user.get({ plain: true }).role
+            };
+            return res.status(HttpStatusCodes.OK).json(new AppSuccess(userResponse));
         } catch (error) {
             res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json(new AppError(message.ERRORS.USER.USER_CREATION_FAILED, 500));
         }
