@@ -17,5 +17,12 @@ export class CourseService {
     async findAll(where?: WhereOptions<Course>) {
         return this.courseRepository.findAll(where);
     }
+    findOne(id: number) {
+        return this.courseRepository.findOne({ id })
+    }
+
+    remove(id: number) {
+        return this.courseRepository.delete(id);
+    }
 
 }
