@@ -18,7 +18,8 @@
             "COURSE_NOT_FOUND": "Course not found",
             "COURSE_UPDATE_FAILED": "Failed to update course",
             "COURSE_CREATION_FAILED": "Failed to create course",
-            "COURSE_DELETE_FAILED": "Failed to delete courses"
+            "COURSE_DELETE_FAILED": "Failed to delete courses",
+            "INVALID_COURSE_ID":"Invalid Course"
         },
         "GENERAL": {
             "INTERNAL_SERVER_ERROR": "INTERNAL SERVER ERROR"

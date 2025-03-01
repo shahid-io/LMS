@@ -17,7 +17,7 @@ class PermissionChecker {
             try {
                 const permission = await Permission.findOne({
                     where: { name: requiredPermission },
-                    logging: console.log
+                    // logging: console.log
                 });
                 if (!permission) {
                     return res.status(403).json({ error: 'Forbidden: Permission not found' });
@@ -28,6 +28,7 @@ class PermissionChecker {
                         roleId: roleId,
                         permissionId: permission.id,
                     },
+                    // logging: console.log
                 });
                 if (!hasPermission) {
                     return res.status(403).json({ error: 'Forbidden: Insufficient permissions' });

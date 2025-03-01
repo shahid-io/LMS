@@ -40,6 +40,24 @@ class CourseRoutes {
             }
         );
 
+        // Get One courses (requires VIEW_COURSE permission)
+        this.router.get(
+            '/',
+            this.permissionChecker.checkPermission(PermissionEnum.VIEW_COURSE),
+            (req: Request, res: Response) => {
+                this.courseController.getOneCourse(req, res);
+            }
+        );
+
+        // Delete One courses (requires VIEW_COURSE permission)
+        this.router.delete(
+            '/',
+            this.permissionChecker.checkPermission(PermissionEnum.DELETE_COURSE),
+            (req: Request, res: Response) => {
+                this.courseController.removeCourse(req, res);
+            }
+        );
+
     }
 
     public getRouter(): express.Router {
