@@ -6,8 +6,9 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
+    "start:dev": "nodemon",
+    "dev": "nodemon",
     "seed": "ts-node seed.ts",
-    "dev": "nodemon src/server.ts",
     "clean": "rm -rf dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -47,9 +48,10 @@
     "@types/moment": "^2.13.0",
     "@types/node": "^22.5.0",
     "@types/sequelize": "^4.28.20",
-    "nodemon": "^3.1.4",
+    "nodemon": "^3.1.9",
     "sequelize-cli": "^6.6.2",
     "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.5.4"
   }
 }

@@ -126,6 +126,22 @@ CREATE TABLE Role_Permissions (
     FOREIGN KEY (RoleID) REFERENCES Roles(ID),
     FOREIGN KEY (PermissionID) REFERENCES Permissions(PermissionID)
 );
-```
+
 
 -- Additional tables for Assessments, Questions, Answers, Course Materials, Discussions, Logs can be created similarly.
+
+```plaintext
++----------------+       +----------------+       +-------------------+       +----------------+
+|    Users       |       |    Roles        |       | RolePermissions   |       | Permissions     |
++----------------+       +----------------+       +-------------------+       +----------------+
+| id (PK)        |<------| id (PK)         |<------| id (PK)            |------>| id (PK)         |
+| email          |       | role            |       | roleId (FK)        |       | name            |
+| password       |       | description     |       | permissionId (FK)  |       | createdAt       |
+| status         |       | createdAt       |       | createdAt          |       | updatedAt       |
+| roleId (FK)    |       | updatedAt       |       | updatedAt          |       | deletedAt       |
+| createdAt      |       | deletedAt       |       | deletedAt          |       +----------------+
+| updatedAt      |       +----------------+       +-------------------+
+| deletedAt      |
++----------------+
+
+```
