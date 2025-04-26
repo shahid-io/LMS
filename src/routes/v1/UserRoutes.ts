@@ -2,6 +2,34 @@ import express, { Request, Response } from 'express';
 import { UserController } from '../../controllers/UserController';
 import { UserMiddleware } from '../../middlewares/UserMiddleware';
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         email:
+ *           type: string
+ *         status:
+ *           type: integer
+ *         roleId:
+ *           type: integer
+ * 
+ *     LoginRequest:
+ *       type: object
+ *       required:
+ *         - email
+ *         - password
+ *       properties:
+ *         email:
+ *           type: string
+ *         password:
+ *           type: string
+ */
+
 class UserRoutes {
     private router: express.Router;
     private userController: UserController;
@@ -25,15 +53,57 @@ class UserRoutes {
      * @memberof UserRoutes
      */
     private setRoutes() {
-
-        /** Public Routes */
+        /**
+         * @swagger
+         * /api/v1/user/signup:
+         *   post:
+         *     summary: Register a new user
+         *     tags: [Users]
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             required:
+         *               - email
+         *               - password
+         *             properties:
+         *               email:
+         *                 type: string
+         *               password:
+         *                 type: string
+         *     responses:
+         *       201:
+         *         description: User created successfully
+         *       500:
+         *         description: Server error
+         */
         this.router.post('/signup', (req: Request, res: Response) => {
             this.userController.signup(req, res);
-        })
+        });
 
+        /**
+         * @swagger
+         * /api/v1/user/login:
+         *   post:
+         *     summary: Login user
+         *     tags: [Users]
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             $ref: '#/components/schemas/LoginRequest'
+         *     responses:
+         *       200:
+         *         description: Login successful
+         *       401:
+         *         description: Invalid credentials
+         */
         this.router.post('/login', (req: Request, res: Response) => {
             this.userController.login(req, res);
-        })
+        });
 
         /** Apply middleware to all subsequent routes */
         this.router.use(this.userMiddleware.verifyToken);
