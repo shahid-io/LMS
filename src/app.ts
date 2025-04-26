@@ -1,4 +1,6 @@
 import express, { Application, Request, Response } from 'express';
+import swaggerUi from 'swagger-ui-express';
+import { specs } from './config/swagger.config';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
@@ -17,6 +19,10 @@ export class App {
         this.app.use(cors());
         this.app.use(bodyParser.json());
         this.port = serverConfig.PORT;
+        
+        // Add Swagger documentation route
+        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+        
         this.initializeRoutes();
         this.DatabaseInit();
         this.app.use('/api', apiRoutes);
