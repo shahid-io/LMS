@@ -8,6 +8,7 @@ import { Helper } from './utils/helper';
 import apiRoutes from './routes';
 import { serverConfig, databaseConfig } from './config'
 import User from './models/UserModel';
+import { ErrorHandler } from './middlewares/ErrorHandler';
 
 dotenv.config();
 
@@ -48,11 +49,17 @@ export class App {
         this.app.get("/", (req: Request, res: Response) => {
             res.send({ message: 'LMS' })
         });
+
+        // Add error handler as the last middleware
+        this.app.use(ErrorHandler.handleError);
     }
 
     public listen(): void {
-        this.app.listen(this.port, () => {
+        const server = this.app.listen(this.port, () => {
             console.log(`http://localhost:${this.port} : ${Helper.getTimeLog()}`);
         });
+
+        // Handle unhandled rejections
+        ErrorHandler.handleUnhandledRejection(server);
     }
 }
